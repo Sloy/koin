@@ -26,14 +26,18 @@ class InjectionTest : KoinComponent {
     }
 
     fun runTests() {
+        Log.d("KOIN-RESULT", " ")
+        Log.d("KOIN-RESULT", "-> Running...")
+        Log.d("KOIN-RESULT", "=========|=====================")
+        Log.d("KOIN-RESULT", "Device:  | ${Build.BRAND} ${Build.DEVICE} v${Build.VERSION.RELEASE}")
         runKotlinInjection()
         runJavaInjection()
+        Log.d("KOIN-RESULT", "=========|=====================")
+        Log.d("KOIN-RESULT", "<- Finished")
+        Log.d("KOIN-RESULT", " ")
     }
 
     private fun runKotlinInjection() {
-        val name = "Koin+Kotlin"
-        Log.d("KOIN-RESULT", " ")
-        Log.d("KOIN-RESULT", "-> Running $name...")
         StandAloneContext.startKoin(listOf(fibonacciKotlinModule), logger = testLogger)
 
         val durations = (1..rounds).map {
@@ -42,16 +46,12 @@ class InjectionTest : KoinComponent {
             }
         }
 
-        report(durations, name)
+        report(durations, "Koin + Kotlin")
 
         stopKoin()
-        Log.d("KOIN-RESULT", "<- Finished$name")
     }
 
     private fun runJavaInjection() {
-        val name = "Koin+Java"
-        Log.d("KOIN-RESULT", " ")
-        Log.d("KOIN-RESULT", "-> Running $name...")
         StandAloneContext.startKoin(listOf(fibonacciJavaModule), logger = testLogger)
 
         val durations = (1..rounds).map {
@@ -60,22 +60,16 @@ class InjectionTest : KoinComponent {
             }
         }
 
-        report(durations, name)
+        report(durations, "Koin + Java")
 
         stopKoin()
-        Log.d("KOIN-RESULT", "<- Finished$name")
-        Log.d("KOIN-RESULT", " ")
     }
 
     private fun report(durations: List<Double>, testName: String) {
-        Log.d("KOIN-RESULT", "=========|=====================")
-        Log.d("KOIN-RESULT", "Device:  | ${Build.DEVICE} v${Build.VERSION.RELEASE}")
-        Log.d("KOIN-RESULT", "Test:    | $testName")
-        Log.d("KOIN-RESULT", "Rounds:  | $rounds")
         Log.d("KOIN-RESULT", "---------|--------------------")
-        Log.d("KOIN-RESULT", "Average: | " + durations.average())
+        Log.d("KOIN-RESULT", "Test:    | $testName")
         Log.d("KOIN-RESULT", "Max:     | " + durations.max())
         Log.d("KOIN-RESULT", "Min:     | " + durations.min())
-        Log.d("KOIN-RESULT", "=========|=====================")
+        Log.d("KOIN-RESULT", "Average: | " + durations.average())
     }
 }

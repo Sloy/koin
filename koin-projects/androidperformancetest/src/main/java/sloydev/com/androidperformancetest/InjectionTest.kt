@@ -68,8 +68,8 @@ class InjectionTest : KoinComponent {
     private fun report(durations: List<Double>, testName: String) {
         Log.d("KOIN-RESULT", "---------|--------------------")
         Log.d("KOIN-RESULT", "Test:    | $testName")
-        Log.d("KOIN-RESULT", "Max:     | " + durations.max())
-        Log.d("KOIN-RESULT", "Min:     | " + durations.min())
-        Log.d("KOIN-RESULT", "Average: | " + durations.average())
+        Log.d("KOIN-RESULT", "Max:     | " + String.format("%.2f", durations.max()) + " ms")
+        Log.d("KOIN-RESULT", "Min:     | " + String.format("%.2f", durations.min()) + " ms")
+        Log.d("KOIN-RESULT", "Average: | " + String.format("%.2f", durations.average()) + " ms")
     }
 }

@@ -1,5 +1,8 @@
 package sloydev.com.androidperformancetest;
 
+/**
+ * Generated with https://gist.github.com/Sloy/12affca1e49ba052053ab4c8bfc5bcb4
+ */
 public class Fibonacci {
     public static class Fib1 {}
     public static class Fib2 {}

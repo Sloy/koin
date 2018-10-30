@@ -2,6 +2,9 @@ package sloydev.com.androidperformancetest
 
 import org.koin.dsl.module.module
 
+/**
+ * Generated with https://gist.github.com/Sloy/12affca1e49ba052053ab4c8bfc5bcb4
+ */
 class Fib1
 class Fib2
 class Fib3(val fibM1: Fib2, val fibM2: Fib1)

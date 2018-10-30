@@ -1,3 +1,4 @@
+include ':androidperformancetest'
 // Core
 include 'koin-core', 'koin-test','koin-core-ext'
 include 'examples:coffee-maker'

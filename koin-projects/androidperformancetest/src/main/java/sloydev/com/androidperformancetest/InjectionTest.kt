@@ -11,8 +11,12 @@ import org.koin.standalone.KoinComponent
 import org.koin.standalone.StandAloneContext
 import org.koin.standalone.StandAloneContext.stopKoin
 import org.koin.standalone.get
+import javax.inject.Inject
 
 class InjectionTest : KoinComponent {
+
+    private val kotlinDaggerTest = KotlinDaggerTest()
+    private val javaDaggerTest = JavaDaggerTest()
 
     private val rounds = 100
 
@@ -37,6 +41,8 @@ class InjectionTest : KoinComponent {
         runJavaInjection()
         runKodeinKotlinInjection()
         runKodeinJavaInjection()
+        runDaggerKotlinInjection()
+        runDaggerJavaInjection()
         Log.d("KOIN-RESULT", "=========|=====================")
         Log.d("KOIN-RESULT", "<- Finished")
         Log.d("KOIN-RESULT", " ")
@@ -98,11 +104,43 @@ class InjectionTest : KoinComponent {
         report(durations, "Kodein + Java")
     }
 
+    private fun runDaggerKotlinInjection() {
+        val component = DaggerKotlinDaggerComponent.create()
+        val durations = (1..rounds).map {
+            measureDuration {
+                component.inject(kotlinDaggerTest)
+            }
+        }
+
+        report(durations, "Dagger2 + Kotlin")
+    }
+
+    private fun runDaggerJavaInjection() {
+        val component = DaggerJavaDaggerComponent.create()
+        val durations = (1..rounds).map {
+            measureDuration {
+                component.inject(javaDaggerTest)
+            }
+        }
+
+        report(durations, "Dagger2 + Java")
+    }
+
     private fun report(durations: List<Double>, testName: String) {
         Log.d("KOIN-RESULT", "---------|--------------------")
         Log.d("KOIN-RESULT", "Test:    | $testName")
         Log.d("KOIN-RESULT", "Max:     | " + String.format("%.2f", durations.max()) + " ms")
         Log.d("KOIN-RESULT", "Min:     | " + String.format("%.2f", durations.min()) + " ms")
         Log.d("KOIN-RESULT", "Average: | " + String.format("%.2f", durations.average()) + " ms")
+    }
+
+    class KotlinDaggerTest {
+        @Inject
+        lateinit var daggerFib8: Fib8
+    }
+
+    class JavaDaggerTest {
+        @Inject
+        lateinit var daggerFib8: Fibonacci.Fib8
     }
 }

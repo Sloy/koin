@@ -11,8 +11,8 @@ import org.kodein.di.erased.singleton
  * Generated with https://gist.github.com/Sloy/12affca1e49ba052053ab4c8bfc5bcb4
  */
 val kodeinKotlinModule = Kodein.Module("fib") {
-    bind<Fib1>() with singleton { Fib1() }
-    bind<Fib2>() with singleton { Fib2() }
+    bind<Fib1>() with provider { Fib1() }
+    bind<Fib2>() with provider { Fib2() }
     bind<Fib3>() with provider { Fib3(instance(), instance()) }
     bind<Fib4>() with provider { Fib4(instance(), instance()) }
     bind<Fib5>() with provider { Fib5(instance(), instance()) }

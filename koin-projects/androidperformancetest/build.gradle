@@ -36,6 +36,9 @@ dependencies {
     implementation project(":koin-android")
     testImplementation project(":koin-test")
     androidTestImplementation project(":koin-test")
+
+    implementation 'org.kodein.di:kodein-di-erased-jvm:5.3.0'
+
 }
 repositories {
     mavenCentral()

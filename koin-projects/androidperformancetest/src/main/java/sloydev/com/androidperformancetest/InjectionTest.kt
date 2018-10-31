@@ -2,6 +2,9 @@ package sloydev.com.androidperformancetest
 
 import android.os.Build
 import android.util.Log
+import org.kodein.di.Kodein
+import org.kodein.di.direct
+import org.kodein.di.erased.instance
 import org.koin.core.time.measureDuration
 import org.koin.log.Logger
 import org.koin.standalone.KoinComponent
@@ -32,13 +35,15 @@ class InjectionTest : KoinComponent {
         Log.d("KOIN-RESULT", "Device:  | ${Build.BRAND} ${Build.DEVICE} v${Build.VERSION.RELEASE}")
         runKotlinInjection()
         runJavaInjection()
+        runKodeinKotlinInjection()
+        runKodeinJavaInjection()
         Log.d("KOIN-RESULT", "=========|=====================")
         Log.d("KOIN-RESULT", "<- Finished")
         Log.d("KOIN-RESULT", " ")
     }
 
     private fun runKotlinInjection() {
-        StandAloneContext.startKoin(listOf(fibonacciKotlinModule), logger = testLogger)
+        StandAloneContext.startKoin(listOf(koinKotlinModule), logger = testLogger)
 
         val durations = (1..rounds).map {
             measureDuration {
@@ -52,7 +57,7 @@ class InjectionTest : KoinComponent {
     }
 
     private fun runJavaInjection() {
-        StandAloneContext.startKoin(listOf(fibonacciJavaModule), logger = testLogger)
+        StandAloneContext.startKoin(listOf(koinJavaModule), logger = testLogger)
 
         val durations = (1..rounds).map {
             measureDuration {
@@ -63,6 +68,34 @@ class InjectionTest : KoinComponent {
         report(durations, "Koin + Java")
 
         stopKoin()
+    }
+
+    private fun runKodeinKotlinInjection() {
+        val kodein = Kodein {
+            import(kodeinKotlinModule)
+        }
+
+        val durations = (1..rounds).map {
+            measureDuration {
+                kodein.direct.instance<Fib8>()
+            }
+        }
+
+        report(durations, "Kodein + Kotlin")
+    }
+
+    private fun runKodeinJavaInjection() {
+        val kodein = Kodein {
+            import(kodeinJavaModule)
+        }
+
+        val durations = (1..rounds).map {
+            measureDuration {
+                kodein.direct.instance<Fibonacci.Fib8>()
+            }
+        }
+
+        report(durations, "Kodein + Java")
     }
 
     private fun report(durations: List<Double>, testName: String) {

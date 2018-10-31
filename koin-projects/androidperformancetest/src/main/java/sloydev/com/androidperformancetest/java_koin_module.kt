@@ -5,7 +5,7 @@ import org.koin.dsl.module.module
 /**
  * Generated with https://gist.github.com/Sloy/12affca1e49ba052053ab4c8bfc5bcb4
  */
-val fibonacciJavaModule = module {
+val koinJavaModule = module {
     factory { Fibonacci.Fib1() }
     factory { Fibonacci.Fib2() }
     factory { Fibonacci.Fib3(get(), get()) }
